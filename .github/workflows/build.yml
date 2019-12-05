@@ -1,0 +1,20 @@
+name: Perl application
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout dxtoolkit code
+      uses: actions/checkout@develop
+
+    - name: Set up a Perl container
+      id: dxtoolkitcontainer2
+      uses: pioro/dxtoolkit@develop
+      
+    - name: List
+      run: |
+        ls -l ${GITHUB_WORKSPACE}/out
