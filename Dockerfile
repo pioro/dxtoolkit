@@ -12,4 +12,6 @@ RUN yum install -y centos-release-scl \
     && source scl_source enable rh-perl526 \
     && mkdir /out
 
+COPY entrypoint.sh /entrypoint.sh
 
+ENTRYPOINT ["/entrypoint.sh"]
