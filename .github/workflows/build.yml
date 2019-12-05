@@ -27,8 +27,8 @@ jobs:
 
     - name: display
       run: |
-        ls -l /github/workspace/
-        
+        ls -l /github/home/
+
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1.0.1

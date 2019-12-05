@@ -14,3 +14,5 @@ cd /github/workspace
 tar czvf /github/workspace/dxtoolkit.tar.gz dxtoolkit2/
 
 ls -l /github/workspace/
+
+cp /github/workspace/dxtoolkit.tar.gz /github/home/
