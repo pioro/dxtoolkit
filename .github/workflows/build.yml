@@ -14,16 +14,16 @@ jobs:
     - name: Set up a Perl container
       uses: pioro/dxtoolkit@develop
 
+    - name: display
+      run: |
+        echo ${HOME}
+        ls -l ${HOME}
+
     - name: Upload dxtoolkit
       uses: actions/upload-artifact@v1
       with:
         name: dxtoolkit
         path: /github/workspace/dxtoolkit.tar.gz
-
-    - name: display
-      run: |
-        echo ${HOME}
-        ls -l ${HOME}
 
     - name: Create Release
       id: create_release
