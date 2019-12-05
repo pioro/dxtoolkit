@@ -22,7 +22,8 @@ jobs:
 
     - name: display
       run: |
-        ls -l /github/home/
+        echo ${HOME}
+        ls -l ${HOME}
 
     - name: Create Release
       id: create_release
