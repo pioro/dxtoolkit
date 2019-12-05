@@ -13,7 +13,17 @@ jobs:
 
     - name: Set up a Perl container
       uses: pioro/dxtoolkit@develop
-      
+
+    - name: Upload dxtoolkit
+      uses: actions/upload-artifact@v1
+      with:
+        name: dxtoolkit
+        path: /github/workspace/dxtoolkit.tar.gz
+
+    - name: display
+      run: |
+        ls -l /github/home/
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1.0.0
@@ -25,7 +35,17 @@ jobs:
         draft: true
         prerelease: true
 
-    - name: display
+    - name: Download dxtoolkit
+      uses: actions/download-artifact@v1
+      with:
+        name: dxtoolkit
+    - shell: bash
+      run: |
+        value=`cat homework/math-homework.txt`
+        expr $value \* 9 > homework/math-homework.txt
+
+
+    - name: display 2
       run: |
         ls -l /github/home/
 
