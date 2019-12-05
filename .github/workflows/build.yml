@@ -17,13 +17,7 @@ jobs:
     - name: display
       run: |
         echo ${HOME}
-        ls -l ${HOME}
-
-    - name: Upload dxtoolkit
-      uses: actions/upload-artifact@v1
-      with:
-        name: dxtoolkit
-        path: /github/workspace/dxtoolkit.tar.gz
+        ls -l /home/runner/work/dxtoolkit/dxtoolkit
 
     - name: Create Release
       id: create_release
@@ -36,20 +30,6 @@ jobs:
         draft: true
         prerelease: true
 
-    - name: Download dxtoolkit
-      uses: actions/download-artifact@v1
-      with:
-        name: dxtoolkit
-    - shell: bash
-      run: |
-        value=`cat homework/math-homework.txt`
-        expr $value \* 9 > homework/math-homework.txt
-
-
-    - name: display 2
-      run: |
-        ls -l /github/home/
-
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1.0.1
@@ -57,7 +37,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ${GITHUB_WORKSPACE}/dxtoolkit.tar.gz
+        asset_path: /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit.tar.gz
         asset_name: dxtoolkit.tar.gz
         asset_content_type: application/tgz
 
