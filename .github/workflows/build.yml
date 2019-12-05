@@ -17,4 +17,4 @@ jobs:
       
     - name: List
       run: |
-        ls -l ${GITHUB_WORKSPACE}/out
+        ls -l ${GITHUB_WORKSPACE}
