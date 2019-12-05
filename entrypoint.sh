@@ -12,3 +12,5 @@ for i in dx_*.pl ; do name=${i%.pl}; ln -s $DELPHIX_OUTPUT/dxtoolkit $DELPHIX_OU
 
 cd /github/workspace
 tar czvf /github/workspace/dxtoolkit.tar.gz dxtoolkit2/
+
+ls -l /github/workspace/
