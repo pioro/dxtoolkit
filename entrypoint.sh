@@ -1,3 +1,3 @@
 #!/bin/bash
-ls -l /github/workflow
+ls -l /github/workspace 
 
