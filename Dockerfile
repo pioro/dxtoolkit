@@ -1,34 +1,41 @@
-FROM perl:5.28 as builder
+FROM centos:7
 
-RUN  apt-get update \
-     && apt-get install -y libnet-ssleay-perl libcrypt-ssleay-perl libwww-perl \
-     && cpanm JSON   Date::Manip   DateTime::Event::Cron::Quartz   DateTime::Format::DateParse \
-        Crypt::CBC   Crypt::Blowfish   Text::CSV   Try::Tiny   LWP::UserAgent   Net::SSLeay   \
-        IO::Socket::SSL   LWP::Protocol::https     Filter::Crypto::Decrypt   PAR::Packer   \
-        Term::ReadKey   Log::Syslog::Fast \
-     && mkdir /app
+RUN yum install -y centos-release-scl \
+    && yum install -y rh-perl526 \
+    && yum install -y rh-perl526-perl-JSON-PP.noarch \
+    && yum install -y rh-perl526-perl-App-cpanminus.noarch \
+    && yum install -y rh-perl526-perl-Try-Tiny.noarch \
+    && yum install -y rh-perl526-perl-DateTime.x86_64 \
+    && yum install -y openssl-devel.x86_64 \
+    && yum install -y openssl \
+    && yum install -y gcc \
+    && source scl_source enable rh-perl526 \
+    && cpanm JSON \
+    && cpanm Date::Manip \
+    && cpanm DateTime::Event::Cron::Quartz \
+    && cpanm DateTime::Format::DateParse \
+    && cpanm Crypt::CBC \
+    && cpanm Crypt::Blowfish \
+    && cpanm Text::CSV \
+    && cpanm LWP::UserAgent \
+    && cpanm Net::SSLeay \
+    && cpanm IO::Socket::SSL \
+    && cpanm LWP::Protocol::https \
+    && cpanm Term::ReadKey \
+    && cpanm Log::Syslog::Fast \
+    && cpanm Filter::Crypto::Decrypt \
+    && cpanm PAR::Packer \
+    && cpanm List::MoreUtils::PP \
+    && mkdir /app \
+    && mkdir /out
 
 ADD lib /app/lib
 ADD bin /app/bin
 
 WORKDIR /app/bin
 
-RUN for script in $(ls dx*.pl); do \
-     pp  -u -l /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 -l /usr/lib/x86_64-linux-gnu/libssl.so.1.1 -I ../lib/  -M Crypt::Blowfish  -F Crypto=dbutils.pm -M Filter::Crypto::Decrypt -o $(echo $script | cut -d\. -f1)  $script; \
-     done
-
-RUN rm -f /app/bin/*.pl
- 
-
-
-FROM ubuntu:16.04
-
-RUN mkdir -p /app/bin
-
-COPY --from=builder /app/bin /app/bin
-
-ENV PATH=$PATH:/app/bin/
-
-WORKDIR /app/bin/
-
-CMD ["/bin/bash"]
+RUN source scl_source enable rh-perl526  \
+    && pp -u -I /app/lib/ -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+       -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o /out/dxtoolkit `ls dx_*.pl | xargs`
+RUN source scl_source enable rh-perl526  \
+    && for i in dx_*.pl ; do name=${i%.pl}; ln -s /out/dxtoolkit /out/$name; done
