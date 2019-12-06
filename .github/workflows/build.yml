@@ -1,6 +1,6 @@
 name: Perl application
 
-on: [push]
+on: [pull_request]
 
 jobs:
   build:
@@ -12,7 +12,8 @@ jobs:
       uses: actions/checkout@master
 
     - name: Set up a Perl container
-      uses: pioro/dxtoolkit@develop
+      #uses: pioro/dxtoolkit@develop
+      uses: docker://pioro/dxperlcent7:5.26
 
     - name: display
       run: |
