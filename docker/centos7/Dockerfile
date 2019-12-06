@@ -27,6 +27,9 @@ RUN yum install -y centos-release-scl \
     && cpanm PAR::Packer \
     && cpanm List::MoreUtils::PP 
 
+RUN mkdir -p /github/workspace
+RUN mkdir -p /github/home
+RUN mkdir -p /github/workflow
 COPY entrypoint.sh /entrypoint.sh
 WORKDIR /github/workspace
 

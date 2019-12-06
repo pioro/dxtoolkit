@@ -3,7 +3,7 @@ name: Perl application
 on: [push]
 
 jobs:
-  build:
+  centos7:
 
     runs-on: ubuntu-latest
 
@@ -15,31 +15,42 @@ jobs:
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent7:5.26
 
-    - name: display
-      run: |
-        echo ${HOME}
-        ls -l /home/runner/work/dxtoolkit/dxtoolkit
+    # - name: display
+    #   run: |
+    #     echo ${HOME}
+    #     ls -l /home/runner/work/dxtoolkit/dxtoolkit
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1.0.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: true
-        prerelease: true
+    # - name: Create Release
+    #   id: create_release
+    #   uses: actions/create-release@v1.0.0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ github.ref }}
+    #     release_name: Release ${{ github.ref }}
+    #     draft: true
+    #     prerelease: true
 
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit.tar.gz
-        asset_name: dxtoolkit.tar.gz
-        asset_content_type: application/tgz
+    # - name: Upload Release Asset
+    #   id: upload-release-asset 
+    #   uses: actions/upload-release-asset@v1.0.1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+    #     asset_path: /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit.tar.gz
+    #     asset_name: dxtoolkit.tar.gz
+    #     asset_content_type: application/tgz
 
 
+  centos6:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout dxtoolkit code
+      uses: actions/checkout@master
+
+    - name: Set up a Perl container
+      #uses: pioro/dxtoolkit@develop
+      uses: docker://pioro/dxperlcent6:5.26
