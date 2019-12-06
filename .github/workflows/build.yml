@@ -15,7 +15,7 @@ jobs:
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent7:5.26
 
-      
+
     # - name: display
     #   run: |
     #     echo ${HOME}
@@ -55,3 +55,10 @@ jobs:
     - name: Set up a Perl container
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent6:5.26
+
+  release:
+    needs: centos6, centos7
+    steps:
+    - name: Say
+      run: |
+        echo "HELLO" 
