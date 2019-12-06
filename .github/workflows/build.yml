@@ -43,6 +43,49 @@ jobs:
     #     asset_name: dxtoolkit.tar.gz
     #     asset_content_type: application/tgz
 
+  ubuntu:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: checkout dxtoolkit code
+      uses: actions/checkout@master
+
+    - name: Set up a Perl container
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libpar-packer-perl 
+        sudo apt-get install -y libjson-pp-perl
+        sudo apt-get install -y libdate-manip-perl
+        sudo apt-get install -y libdatetime-format-dateparse-perl
+        sudo apt-get install -y libcrypt-cbc-perl
+        sudo apt-get install -y libcrypt-blowfish-perl
+        sudo apt-get install -y libtext-csv-perl
+        sudo apt-get install -y libtry-tiny-perl
+        sudo apt-get install -y libparse-http-useragent-perl
+        sudo apt-get install -y libnet-ssleay-perl
+        sudo apt-get install -y libio-socket-ssl-perl
+        sudo apt-get install -y libfilter-perl
+        sudo apt-get install -y libterm-readkey-perl
+        sudo apt-get install -y cpanminus
+        sudo apt-get install -y make
+        sudo apt-get install -y gcc
+        sudo apt-get install -y libssl-dev
+        sudo apt-get install -y libwww-perl
+        sudo cpanm DateTime::Event::Cron::Quartz
+        sudo cpanm Log::Syslog::Fast
+        sudo cpanm Filter::Crypto::Decrypt
+
+    - name: Compile
+      run: |
+          mkdir /home/runner/work/action_tests/action_tests/dxtoolkit2
+          cd /home/runner/work/action_tests/action_tests/bin
+          pp -u -I /home/runner/work/action_tests/action_tests/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o /home/runner/work/action_tests/action_tests/dxtoolkit2/dxtoolkit `ls dx_*.pl | xargs`
+          for i in dx_*.pl ; do name=${i%.pl}; ln -s /home/runner/work/action_tests/action_tests/dxtoolkit2/dxtoolkit /home/runner/work/action_tests/action_tests/dxtoolkit2/$name; done
+          ls -l /home/runner/work/action_tests/action_tests/dxtoolkit2
+          cd /home/runner/work/action_tests/action_tests/
+          tar czvf /home/runner/work/action_tests/action_tests/dxtoolkit.tar.gz dxtoolkit2/
 
   centos6:
 
