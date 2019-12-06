@@ -78,14 +78,14 @@ jobs:
 
     - name: Compile
       run: |
-          mkdir /home/runner/work/action_tests/action_tests/dxtoolkit2
-          cd /home/runner/work/action_tests/action_tests/bin
-          pp -u -I /home/runner/work/action_tests/action_tests/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
-          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o /home/runner/work/action_tests/action_tests/dxtoolkit2/dxtoolkit `ls dx_*.pl | xargs`
-          for i in dx_*.pl ; do name=${i%.pl}; ln -s /home/runner/work/action_tests/action_tests/dxtoolkit2/dxtoolkit /home/runner/work/action_tests/action_tests/dxtoolkit2/$name; done
-          ls -l /home/runner/work/action_tests/action_tests/dxtoolkit2
-          cd /home/runner/work/action_tests/action_tests/
-          tar czvf /home/runner/work/action_tests/action_tests/dxtoolkit.tar.gz dxtoolkit2/
+          mkdir /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2
+          cd /home/runner/work/dxtoolkit/dxtoolkit/bin
+          pp -u -I /home/runner/work/dxtoolkit/dxtoolkit/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/dxtoolkit `ls dx_*.pl | xargs`
+          for i in dx_*.pl ; do name=${i%.pl}; ln -s /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/dxtoolkit /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/$name; done
+          ls -l /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2
+          cd /home/runner/work/dxtoolkit/dxtoolkit/
+          tar czvf /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit.tar.gz dxtoolkit2/
 
   centos6:
 
