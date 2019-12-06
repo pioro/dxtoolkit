@@ -100,7 +100,8 @@ jobs:
       uses: docker://pioro/dxperlcent6:5.26
 
   release:
-    needs: centos6, centos7
+    runs-on: ubuntu-latest
+    needs: [centos6, centos7]
     steps:
     - name: Say
       run: |
