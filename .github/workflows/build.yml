@@ -1,6 +1,9 @@
 name: Perl application
 
-on: [push]
+on: 
+  push:
+    tags: 
+      - "v*.*"
 
 jobs:
   centos7:
