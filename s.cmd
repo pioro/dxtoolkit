@@ -20,10 +20,10 @@ if ERRORLEVEL==1 echo FATAL ERROR: 'perl' does not work; check if your strawberr
 
 
 echo "SLON2"
-cpanm PAR::Packer
-cpanm Date::Manip 
-cpanm DateTime::Event::Cron::Quartz
-cpanm Filter::Crypto::Decrypt
+call cpanm PAR::Packer
+call cpanm Date::Manip 
+call cpanm DateTime::Event::Cron::Quartz
+call cpanm Filter::Crypto::Decrypt
 echo "SLON3"
 
 rem copy c:\Users\pioro\Documents\oss_delphix\dxtoolkit\tools\dbutils.pm lib\dbutils.pm
