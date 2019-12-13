@@ -121,7 +121,9 @@ jobs:
       id: get_version 
       run: |
         $SOURCE_TAG = ${env:GITHUB_REF} -replace 'refs\/tags\/', ''
+        $FILENAME="dxtoolkit2-$SOURCE_TAG-win.zip"
         echo ::set-output name=SOURCE_TAG::$SOURCE_TAG
+        echo ::set-output name=FILENAME::$FILENAME
       shell: powershell
 
     - name: download perl
@@ -139,8 +141,7 @@ jobs:
 
     - name: compress toolkit
       run: |
-        $SOURCE_TAG = ${env:GITHUB_REF} -replace 'refs\/tags\/', ''
-        $NAME = "d:\a\dxtoolkit\dxtoolkit\dxtoolkit2-${ steps.get_version.outputs.SOURCE_TAG }-win.zip"
+        $NAME = "d:\a\dxtoolkit\dxtoolkit\dxtoolkit2-${ steps.get_version.outputs.FILENAME }-win.zip"
         Compress-Archive -Path d:\a\dxtoolkit\dxtoolkit\dxtoolkit2 -DestinationPath $NAME
       shell: powershell
 
@@ -148,7 +149,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: windowsbuild
-        path: dxtoolkit2-${ steps.get_version.outputs.SOURCE_TAG }-win.zip
+        path: ${ steps.get_version.outputs.FILENAME }
 
 
   release:
