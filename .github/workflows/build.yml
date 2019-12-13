@@ -16,10 +16,10 @@ jobs:
       uses: docker://pioro/dxperlcent7:5.26
 
 
-    # - name: display
-    #   run: |
-    #     echo ${HOME}
-    #     ls -l /home/runner/work/dxtoolkit/dxtoolkit
+    - name: display
+      run: |
+        echo ${HOME}
+        ls -l /home/runner/work/dxtoolkit/dxtoolkit
 
     # - name: Create Release
     #   id: create_release
