@@ -99,6 +99,28 @@ jobs:
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent6:5.26
 
+
+  Windows:
+
+    runs-on: windows-2016
+
+    steps:
+    - name: checkout dxtoolkit code
+      uses: actions/checkout@master
+
+    - name: download perl
+      run: |
+        mkdir d:\a\perldownload
+        mkdir d:\a\perl
+        Invoke-WebRequest "http://strawberryperl.com/download/5.26.3.1/strawberry-perl-5.26.3.1-64bit-portable.zip" -OutFile "d:\a\perldownload\perl526.zip"
+        dir d:\a\perldownload\
+        Expand-Archive "d:\a\perldownload\perl526.zip" -DestinationPath "d:\a\perl"
+      shell: powershell
+
+    - name: build  
+      run: s.cmd
+      shell: cmd
+
   release:
     runs-on: ubuntu-latest
     needs: [centos6, centos7]
