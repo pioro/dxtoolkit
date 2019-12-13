@@ -52,3 +52,5 @@ echo    mklink /H %%%%~nd.exe runner.exe  >> compiled\install.cmd
 echo )  >> compiled\install.cmd
 
 dir compiled
+
+rename compiled dxtoolkit2

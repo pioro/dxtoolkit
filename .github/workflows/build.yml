@@ -15,14 +15,7 @@ jobs:
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent7:5.26
 
-
-    - name: display
-      run: |
-        echo ${HOME}
-        ls -l /home/runner/work/dxtoolkit/dxtoolkit
-
-
-    - name: Upload math result for job 1
+    - name: Upload centos 7
       uses: actions/upload-artifact@v1
       with:
         name: cento7build
@@ -61,7 +54,7 @@ jobs:
 
     - name: Set up a Perl container
       run: |
-        sudo apt-get update
+        sudo apt-get update || exit 0
         sudo apt-get install -y libpar-packer-perl 
         sudo apt-get install -y libjson-pp-perl
         sudo apt-get install -y libdate-manip-perl
@@ -107,6 +100,11 @@ jobs:
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent6:5.26
 
+    - name: Upload centos 6 
+      uses: actions/upload-artifact@v1
+      with:
+        name: cento6build
+        path: dxtoolkit.tar.gz
 
   Windows:
 
@@ -129,17 +127,42 @@ jobs:
       run: s.cmd
       shell: cmd
 
+    - name: compress toolkit
+      run: |
+        $SOURCE_TAG = ${env:GITHUB_REF} -replace 'refs\/tags\/', ''
+        Compress-Archive -Path d:\a\dxtoolkit\dxtoolkit\dxtoolkit2 -DestinationPath d:\a\dxtoolkit\dxtoolkit\dxtoolkit2-${SOURCE_TAG}-win.zip
+      shell: powershell
+
+    - name: Upload windows
+      uses: actions/upload-artifact@v1
+      with:
+        name: windowsbuild
+        path: dxtoolkit2-win.zip
+
+
   release:
     runs-on: ubuntu-latest
-    needs: [centos6, centos7]
+    needs: [centos6, centos7, windows]
     steps:
 
-    - name: Download math result for job 1
+    - name: Download centos7
       uses: actions/download-artifact@v1
       with:
         name: cento7build
+
+    - name: Download centos6
+      uses: actions/download-artifact@v1
+      with:
+        name: cento6build
+
+    - name: Download windows
+      uses: actions/download-artifact@v1
+      with:
+        name: windowsbuild
+        
 
     - name: Say
       run: |
         echo "HELLO" 
         ls -l 
+        ls -l windowsbuild
