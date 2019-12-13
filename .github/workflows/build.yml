@@ -118,8 +118,10 @@ jobs:
       uses: actions/checkout@master
 
     - name: Get the version
-      id: get_version
-      run: echo ::set-output name=SOURCE_TAG::${env:GITHUB_REF} -replace 'refs\/tags\/', ''
+      id: get_version 
+      run: |
+        $SOURCE_TAG = ${env:GITHUB_REF} -replace 'refs\/tags\/', ''
+        echo ::set-output name=SOURCE_TAG::$SOURCE_TAG
       shell: powershell
 
     - name: download perl
