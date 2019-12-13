@@ -117,6 +117,11 @@ jobs:
     - name: checkout dxtoolkit code
       uses: actions/checkout@master
 
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=SOURCE_TAG::${env:GITHUB_REF} -replace 'refs\/tags\/', ''
+      shell: powershell
+
     - name: download perl
       run: |
         mkdir d:\a\perldownload
@@ -133,14 +138,15 @@ jobs:
     - name: compress toolkit
       run: |
         $SOURCE_TAG = ${env:GITHUB_REF} -replace 'refs\/tags\/', ''
-        Compress-Archive -Path d:\a\dxtoolkit\dxtoolkit\dxtoolkit2 -DestinationPath d:\a\dxtoolkit\dxtoolkit\dxtoolkit2-${SOURCE_TAG}-win.zip
+        $NAME = "d:\a\dxtoolkit\dxtoolkit\dxtoolkit2-${ steps.get_version.outputs.SOURCE_TAG }-win.zip"
+        Compress-Archive -Path d:\a\dxtoolkit\dxtoolkit\dxtoolkit2 -DestinationPath $NAME
       shell: powershell
 
     - name: Upload windows
       uses: actions/upload-artifact@v1
       with:
         name: windowsbuild
-        path: dxtoolkit2-win.zip
+        path: dxtoolkit2-${ steps.get_version.outputs.SOURCE_TAG }-win.zip
 
 
   release:
