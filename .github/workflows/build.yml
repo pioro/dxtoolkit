@@ -3,7 +3,7 @@ name: Perl application
 on: 
   push:
     tags: 
-      - "v*.*"
+      - "v*.*.*"
 
 jobs:
   centos7:
