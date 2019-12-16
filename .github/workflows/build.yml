@@ -141,7 +141,7 @@ jobs:
 
     - name: compress toolkit
       run: |
-        $NAME = "d:\a\action_tests\action_tests\${{ env.FILENAME }}"
+        $NAME = "d:\a\dxtoolkit\dxtoolkit\${{ env.FILENAME }}"
         echo ${NAME}
         Compress-Archive -Path d:\a\dxtoolkit\dxtoolkit\dxtoolkit2 -DestinationPath ${NAME}
       shell: powershell
