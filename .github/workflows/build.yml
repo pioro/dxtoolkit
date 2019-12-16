@@ -213,7 +213,10 @@ jobs:
         FILENAMEUBUNTU="dxtoolkit2-${SOURCE_TAG}-ubuntu1804.tar.gz"
         FILENAMEWIN="dxtoolkit2-${SOURCE_TAG}-win.zip"
         echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
-        echo "::set-env name=FILENAME::$FILENAME"
+        echo "::set-env name=FILENAMERH7::$FILENAMERH7"
+        echo "::set-env name=FILENAMERH6::$FILENAMERH6"
+        echo "::set-env name=FILENAMEUBUNTU::$FILENAMEUBUNTU"
+        echo "::set-env name=FILENAMEWIN::$FILENAMEWIN"
 
     - name: Create Release
       id: create_release
