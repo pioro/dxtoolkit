@@ -232,7 +232,7 @@ jobs:
                2nd linia"
 
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload-release-asset1
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -243,7 +243,7 @@ jobs:
         asset_content_type: application/tgz
 
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload-release-asset2 
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -254,7 +254,7 @@ jobs:
         asset_content_type: application/tgz
 
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload-release-asset3 
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -265,7 +265,7 @@ jobs:
         asset_content_type: application/tgz
 
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload-release-asset4 
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
