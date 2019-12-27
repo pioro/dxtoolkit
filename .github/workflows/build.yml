@@ -220,12 +220,13 @@ jobs:
     - name: Compile
       run: |
           CELL=`brew --prefix perl`
+          CDIR=`pwd`
           export PP=${CELL}/bin/pp
           mkdir dxtoolkit2
           cd ./bin
           $PP -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
           -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../dxtoolkit2/runner `ls dx_*.pl | xargs`
-          for i in dx_*.pl ; do name=${i%.pl}; ln -s ../dxtoolkit2/runner ../dxtoolkit2/$name; done
+          for i in dx_*.pl ; do name=${i%.pl}; ln -s ${PWD}/dxtoolkit2/runner ${PWD}/dxtoolkit2/$name; done
           cd ../
           ls -l ./dxtoolkit2
           tar czvf ${{ env.FILENAME }} dxtoolkit2/
@@ -239,7 +240,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [centos6, centos7, windows, ubuntu]
+    needs: [centos6, centos7, windows, ubuntu, osx]
     steps:
 
     - name: Download centos7
@@ -262,6 +263,11 @@ jobs:
       with:
         name: ubuntubuild
 
+    - name: Download osx
+      uses: actions/download-artifact@v1
+      with:
+        name: osxbuild
+
     - name: Say
       run: |
         echo "HELLO" 
@@ -276,11 +282,13 @@ jobs:
         FILENAMERH6="dxtoolkit2-${SOURCE_TAG}-RH6.tar.gz"
         FILENAMEUBUNTU="dxtoolkit2-${SOURCE_TAG}-ubuntu1804.tar.gz"
         FILENAMEWIN="dxtoolkit2-${SOURCE_TAG}-win.zip"
+        FILENAMEOSX="dxtoolkit2-${SOURCE_TAG}-osx.tar.gz"
         echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
         echo "::set-env name=FILENAMERH7::$FILENAMERH7"
         echo "::set-env name=FILENAMERH6::$FILENAMERH6"
         echo "::set-env name=FILENAMEUBUNTU::$FILENAMEUBUNTU"
         echo "::set-env name=FILENAMEWIN::$FILENAMEWIN"
+        echo "::set-env name=FILENAMEOSX::$FILENAMEOSX"
 
     - name: Create Release
       id: create_release
@@ -337,4 +345,15 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: windowsbuild/${{ env.FILENAMEWIN }}
         asset_name: ${{ env.FILENAMEWIN }}
+        asset_content_type: application/zip
+
+    - name: Upload Release Asset
+      id: upload-release-asset4 
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: osxbuild/${{ env.FILENAMEOSX }}
+        asset_name: ${{ env.FILENAMEOSX }}
         asset_content_type: application/tgz
