@@ -178,6 +178,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
+    - name: checkout dxtoolkit code
+      uses: actions/checkout@master
+
 
     - name: Get the version
       id: get_version 
