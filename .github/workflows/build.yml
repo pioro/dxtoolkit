@@ -192,7 +192,7 @@ jobs:
         else
           exit 1
         fi
-        FILENAME="dxtoolkit2-${SOURCE_TAG}-osx.zip"
+        FILENAME="dxtoolkit2-${SOURCE_TAG}-osx.tar.gz"
         echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
         echo "::set-env name=FILENAME::$FILENAME"
 
@@ -226,7 +226,8 @@ jobs:
           cd ./bin
           $PP -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
           -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../dxtoolkit2/runner `ls dx_*.pl | xargs`
-          for i in dx_*.pl ; do name=${i%.pl}; ln -s ${CDIR}/dxtoolkit2/runner ${CDIR}/dxtoolkit2/$name; done
+          cd ${CDIR}/dxtoolkit2
+          for i in ${CDIR}/bin/dx_*.pl ; do name=`basename -s .pl $i; ln -s runner $name; done
           cd ${CDIR}
           ls -l ./dxtoolkit2
           tar czvf ${{ env.FILENAME }} dxtoolkit2/
