@@ -219,9 +219,11 @@ jobs:
 
     - name: Compile
       run: |
+          CELL=`brew --prefix perl`
+          export PP=${CELL}/bin/pp
           mkdir dxtoolkit2
           cd ./bin
-          pp -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+          $PP -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
           -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../dxtoolkit2/runner `ls dx_*.pl | xargs`
           for i in dx_*.pl ; do name=${i%.pl}; ln -s ../dxtoolkit2/runner ../dxtoolkit2/$name; done
           cd ../
