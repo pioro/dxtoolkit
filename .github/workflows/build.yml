@@ -192,7 +192,7 @@ jobs:
         else
           exit 1
         fi
-        FILENAME="dxtoolkit2-${SOURCE_TAG}-RH7.zip"
+        FILENAME="dxtoolkit2-${SOURCE_TAG}-osx.zip"
         echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
         echo "::set-env name=FILENAME::$FILENAME"
 
@@ -219,14 +219,14 @@ jobs:
 
     - name: Compile
       run: |
-          mkdir /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2
-          cd /home/runner/work/dxtoolkit/dxtoolkit/bin
-          pp -u -I /home/runner/work/dxtoolkit/dxtoolkit/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
-          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/dxtoolkit `ls dx_*.pl | xargs`
-          for i in dx_*.pl ; do name=${i%.pl}; ln -s /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/dxtoolkit /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/$name; done
-          ls -l /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2
-          cd /home/runner/work/dxtoolkit/dxtoolkit/
-          tar czvf /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit.tar.gz dxtoolkit2/
+          mkdir dxtoolkit2
+          cd dxtoolkit/dxtoolkit/bin
+          pp -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../../../dxtoolkit2/runner `ls dx_*.pl | xargs`
+          for i in dx_*.pl ; do name=${i%.pl}; ln -s ../../../dxtoolkit2/runner ../../../dxtoolkit2/$name; done
+          cd ../../../
+          ls -l ./dxtoolkit2
+          tar czvf ${{ env.FILENAME }} dxtoolkit2/
 
     - name: Upload OSX
       uses: actions/upload-artifact@v1
