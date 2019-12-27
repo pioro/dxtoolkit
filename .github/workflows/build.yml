@@ -220,11 +220,11 @@ jobs:
     - name: Compile
       run: |
           mkdir dxtoolkit2
-          cd dxtoolkit/dxtoolkit/bin
+          cd ./bin
           pp -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
-          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../../../dxtoolkit2/runner `ls dx_*.pl | xargs`
-          for i in dx_*.pl ; do name=${i%.pl}; ln -s ../../../dxtoolkit2/runner ../../../dxtoolkit2/$name; done
-          cd ../../../
+          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../dxtoolkit2/runner `ls dx_*.pl | xargs`
+          for i in dx_*.pl ; do name=${i%.pl}; ln -s ../dxtoolkit2/runner ../dxtoolkit2/$name; done
+          cd ../
           ls -l ./dxtoolkit2
           tar czvf ${{ env.FILENAME }} dxtoolkit2/
 
