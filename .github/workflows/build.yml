@@ -17,6 +17,8 @@ jobs:
     - name: Set up a Perl container
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent7:5.26
+      with:
+        SLON: "KROWA"
 
     - name: Get the version
       id: get_version 
@@ -29,11 +31,6 @@ jobs:
     - name: compress toolkit
       run: |
         mv dxtoolkit.tar.gz ${{ env.FILENAME }}
-
-    - name: run tests
-      run: |
-        cd test
-        bash ./runtest.sh
 
     - name: Upload centos 7
       uses: actions/upload-artifact@v1

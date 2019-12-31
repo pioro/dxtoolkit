@@ -25,7 +25,12 @@ RUN yum install -y centos-release-scl \
     && cpanm Log::Syslog::Fast \
     && cpanm Filter::Crypto::Decrypt \
     && cpanm PAR::Packer \
-    && cpanm List::MoreUtils::PP 
+    && cpanm List::MoreUtils::PP \
+    && cpanm Test::More \
+    && cpanm Test::Script \
+    && cpanm Test::Files \ 
+    && cpanm HTTP::Server::Simple::CGI \
+    && cpanm Log::Log4perl
 
 RUN mkdir -p /github/workspace
 RUN mkdir -p /github/home
