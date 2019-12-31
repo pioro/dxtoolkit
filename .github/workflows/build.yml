@@ -18,7 +18,7 @@ jobs:
       #uses: pioro/dxtoolkit@develop
       uses: docker://pioro/dxperlcent7:5.26
       with:
-        SLON: "KROWA"
+        ENCKEY: ${{ secrets.ENCKEY }}
 
     - name: Get the version
       id: get_version 

@@ -18,6 +18,9 @@ if [[ $? -ne 0 ]]; then
     exit 1;
 fi
 
+cd /github/workspace/lib
+mv dbutils.pm dbutils.orig.pm
+cat dbutils.orig.pm | sed -e 's/put your encryption key here/$INPUT_ENCKEY/' > dbutils.pm
 
 cd /github/workspace/bin
 pp -u -I /github/workspace/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
