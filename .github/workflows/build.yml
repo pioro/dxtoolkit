@@ -23,7 +23,7 @@ jobs:
     - name: Get the version
       id: get_version 
       run: |
-        SOURCE_TAG=${GITHUB_REF#refs/tags/}
+        SOURCE_TAG=${GITHUB_REF#refs/tags/} 
         FILENAME="dxtoolkit2-${SOURCE_TAG}-RH7.tar.gz"
         echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
         echo "::set-env name=FILENAME::$FILENAME"
