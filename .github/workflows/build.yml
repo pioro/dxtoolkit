@@ -192,73 +192,75 @@ jobs:
         path: ${{ env.FILENAME }}
 
 
-  # osx:
-  #   needs: [centos7]    
-  #   runs-on: macos-latest
+  osx:
+    needs: [centos7]    
+    runs-on: macos-latest
 
-  #   steps:
-  #   - name: checkout dxtoolkit code
-  #     uses: actions/checkout@master
+    steps:
+    - name: checkout dxtoolkit code
+      uses: actions/checkout@master
 
 
-  #   - name: Get the version
-  #     id: get_version 
-  #     run: |
-  #       if (echo ${GITHUB_REF} | grep "/tags/" > /dev/null); then
-  #         SOURCE_TAG=${GITHUB_REF#refs/tags/}
-  #       elif (echo ${GITHUB_REF} | grep "/heads/" > /dev/null); then
-  #         SOURCE_TAG=${GITHUB_REF#refs/heads/}
-  #       else
-  #         exit 1
-  #       fi
-  #       FILENAME="dxtoolkit2-${SOURCE_TAG}-osx.tar.gz"
-  #       echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
-  #       echo "::set-env name=FILENAME::$FILENAME"
+    - name: Get the version
+      id: get_version 
+      run: |
+        if (echo ${GITHUB_REF} | grep "/tags/" > /dev/null); then
+          SOURCE_TAG=${GITHUB_REF#refs/tags/}
+        elif (echo ${GITHUB_REF} | grep "/heads/" > /dev/null); then
+          SOURCE_TAG=${GITHUB_REF#refs/heads/}
+        else
+          exit 1
+        fi
+        FILENAME="dxtoolkit2-${SOURCE_TAG}-osx.tar.gz"
+        echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
+        echo "::set-env name=FILENAME::$FILENAME"
 
-  #   - name: install perl
-  #     run: |
-  #       brew install cpanminus
-  #       brew install openssl
-  #       cpanm JSON 
-  #       cpanm Date::Manip 
-  #       cpanm DateTime::Event::Cron::Quartz 
-  #       cpanm DateTime::Format::DateParse 
-  #       cpanm Crypt::CBC 
-  #       cpanm Crypt::Blowfish 
-  #       cpanm Text::CSV 
-  #       cpanm LWP::UserAgent 
-  #       cpanm Net::SSLeay 
-  #       cpanm IO::Socket::SSL 
-  #       cpanm LWP::Protocol::https 
-  #       cpanm Term::ReadKey 
-  #       cpanm --configure-args="-d=/usr/local/opt/openssl" Filter::Crypto::Decrypt 
-  #       cpanm -f Archive::Zip
-  #       cpanm PAR::Packer 
-  #       cpanm List::MoreUtils::PP 
+    - name: install perl
+      run: |
+        brew install cpanminus
+        brew install openssl
+        cpanm JSON 
+        cpanm Date::Manip 
+        # force requires after 1/1/2020 ?
+        cpanm -f Date::Parse
+        cpanm DateTime::Event::Cron::Quartz 
+        cpanm DateTime::Format::DateParse 
+        cpanm Crypt::CBC 
+        cpanm Crypt::Blowfish 
+        cpanm Text::CSV 
+        cpanm LWP::UserAgent 
+        cpanm Net::SSLeay 
+        cpanm IO::Socket::SSL 
+        cpanm LWP::Protocol::https 
+        cpanm Term::ReadKey 
+        cpanm --configure-args="-d=/usr/local/opt/openssl" Filter::Crypto::Decrypt 
+        cpanm -f Archive::Zip
+        cpanm PAR::Packer 
+        cpanm List::MoreUtils::PP 
 
-  #   - name: Compile
-  #     run: |
-  #         CELL=`brew --prefix perl`
-  #         CDIR=`pwd`
-  #         export PP=${CELL}/bin/pp
-  #         mkdir dxtoolkit2
-  #         cd ./lib
-  #         mv dbutils.pm dbutils.orig.pm
-  #         cat dbutils.orig.pm | sed -e "s/put your encryption key here/${{ secrets.ENCKEY }}/" > dbutils.pm
-  #         cd ../bin
-  #         $PP -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
-  #         -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../dxtoolkit2/runner `ls dx_*.pl | xargs`
-  #         cd ${CDIR}/dxtoolkit2
-  #         for i in ${CDIR}/bin/dx_*.pl ; do name=`basename -s .pl $i`; ln -s runner $name; done
-  #         cd ${CDIR}
-  #         ls -l ./dxtoolkit2
-  #         tar czvf ${{ env.FILENAME }} dxtoolkit2/
+    - name: Compile
+      run: |
+          CELL=`brew --prefix perl`
+          CDIR=`pwd`
+          export PP=${CELL}/bin/pp
+          mkdir dxtoolkit2
+          cd ./lib
+          mv dbutils.pm dbutils.orig.pm
+          cat dbutils.orig.pm | sed -e "s/put your encryption key here/${{ secrets.ENCKEY }}/" > dbutils.pm
+          cd ../bin
+          $PP -u -I ../lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../dxtoolkit2/runner `ls dx_*.pl | xargs`
+          cd ${CDIR}/dxtoolkit2
+          for i in ${CDIR}/bin/dx_*.pl ; do name=`basename -s .pl $i`; ln -s runner $name; done
+          cd ${CDIR}
+          ls -l ./dxtoolkit2
+          tar czvf ${{ env.FILENAME }} dxtoolkit2/
 
-  #   - name: Upload OSX
-  #     uses: actions/upload-artifact@v1
-  #     with:
-  #       name: osxbuild
-  #       path: ${{ env.FILENAME }}
+    - name: Upload OSX
+      uses: actions/upload-artifact@v1
+      with:
+        name: osxbuild
+        path: ${{ env.FILENAME }}
 
 
   # release:
