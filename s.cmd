@@ -42,7 +42,7 @@ mkdir compiled
 del compiled\*.exe /q
 
 
-call pp -u -I d:\a\perl\lib -l d:\a\perl\c\bin\libcrypto-1_1-x64__.dll -l d:\a\perl\c\bin\zlib1__.dll -l d:\a\perl\c\bin\libssl-1_1-x64__.dll -M Crypt::Blowfish  -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -M Text::CSV_PP -M List::MoreUtils::PP -o compiled\runner.exe %FILES%
+call pp -u -I .\lib -l d:\a\perl\c\bin\libcrypto-1_1-x64__.dll -l d:\a\perl\c\bin\zlib1__.dll -l d:\a\perl\c\bin\libssl-1_1-x64__.dll -M Crypt::Blowfish  -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -M Text::CSV_PP -M List::MoreUtils::PP -o compiled\runner.exe %FILES%
 
 echo @echo off > compiled\install.cmd
 echo set "LISTOFFILES=%FILES%" >> compiled\install.cmd
