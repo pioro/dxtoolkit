@@ -80,9 +80,11 @@ jobs:
           cat dbutils.orig.pm | sed -e "s/put your encryption key here/${INPUT_ENCKEY}/" > dbutils.pm
 
           cd /home/runner/work/dxtoolkit/dxtoolkit/bin
-          pp -u -I /home/runner/work/dxtoolkit/dxtoolkit/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
-          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/dxtoolkit `ls dx_*.pl | xargs`
-          for i in dx_*.pl ; do name=${i%.pl}; ln -s /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/dxtoolkit /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/$name; done
+          pp -u -l /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 -l /usr/lib/x86_64-linux-gnu/libssl.so.1.1 -I /home/runner/work/dxtoolkit/dxtoolkit/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+          -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2/runner `ls dx_*.pl | xargs`
+
+          cd /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2
+          for i in /home/runner/work/dxtoolkit/dxtoolkit/bin/dx_*.pl ; do name=`basename -s .pl $i`; ln -s runner $name; done
           ls -l /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit2
           cd /home/runner/work/dxtoolkit/dxtoolkit/
           tar czvf /home/runner/work/dxtoolkit/dxtoolkit/dxtoolkit.tar.gz dxtoolkit2/
@@ -156,13 +158,13 @@ jobs:
 
     - name: Fix encryption key
       run: |
-        cd lib
+        cd D:\a\dxtoolkit\dxtoolkit\lib
         ls -l dbutils.pm
         mv dbutils.pm dbutils.orig.pm
-        (Get-Content -path .\dbutils.pm -Raw) -replace 'put your encryption key here','${{ secrets.ENCKEY }}' > dbutils.pm
+        (Get-Content -path .\dbutils.pm -Raw) -replace 'put your encryption key here','${{ secrets.ENCKEY_WINDOWS }}' > dbutils.pm
         ls -l dbutils.pm
         Get-Content -path .\dbutils.pm
-        cd ..
+        cd D:\a\dxtoolkit\dxtoolkit\
       shell: powershell
 
     - name: download perl
