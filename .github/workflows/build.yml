@@ -161,7 +161,7 @@ jobs:
         cd D:\a\dxtoolkit\dxtoolkit\lib
         ls -l dbutils.pm
         mv dbutils.pm dbutils.orig.pm
-        (Get-Content -path .\dbutils.pm -Raw) -replace 'put your encryption key here','${{ secrets.ENCKEY_WINDOWS }}' > dbutils.pm
+        (Get-Content -path .\dbutils.orig.pm -Raw) -replace 'put your encryption key here','${{ secrets.ENCKEY_WINDOWS }}' > dbutils.pm
         ls -l dbutils.pm
         Get-Content -path .\dbutils.pm
         cd D:\a\dxtoolkit\dxtoolkit\
