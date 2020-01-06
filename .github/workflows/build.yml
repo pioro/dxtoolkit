@@ -164,7 +164,7 @@ jobs:
         $raw = (Get-Content -path .\dbutils.orig.pm -Raw) -replace 'put your encryption key here','${{ secrets.ENCKEY_WINDOWS }}'
         Set-Content -Path .\dbutils.pm -Value $raw
         echo "AFTER"
-        ls -l *.*
+        pwd
         Get-Content -path .\dbutils.pm
         cd D:\a\dxtoolkit\dxtoolkit\
       shell: powershell
