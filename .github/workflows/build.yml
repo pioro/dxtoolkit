@@ -175,31 +175,31 @@ jobs:
         name: windowsbuild-enc
         path: D:\a\dxtoolkit\dxtoolkit\lib\dbutils.pm
 
-    # - name: download perl
-    #   run: |
-    #     mkdir d:\a\perldownload
-    #     mkdir d:\a\perl
-    #     Invoke-WebRequest "http://strawberryperl.com/download/5.26.3.1/strawberry-perl-5.26.3.1-64bit-portable.zip" -OutFile "d:\a\perldownload\perl526.zip"
-    #     dir d:\a\perldownload\
-    #     Expand-Archive "d:\a\perldownload\perl526.zip" -DestinationPath "d:\a\perl"
-    #   shell: powershell
+    - name: download perl
+      run: |
+        mkdir d:\a\perldownload
+        mkdir d:\a\perl
+        Invoke-WebRequest "http://strawberryperl.com/download/5.26.3.1/strawberry-perl-5.26.3.1-64bit-portable.zip" -OutFile "d:\a\perldownload\perl526.zip"
+        dir d:\a\perldownload\
+        Expand-Archive "d:\a\perldownload\perl526.zip" -DestinationPath "d:\a\perl"
+      shell: powershell
 
-    # - name: build  
-    #   run: build\windows_compile.cmd
-    #   shell: cmd
+    - name: build  
+      run: build\windows_compile.cmd
+      shell: cmd
 
-    # - name: compress toolkit
-    #   run: |
-    #     $NAME = "d:\a\dxtoolkit\dxtoolkit\${{ env.FILENAME }}"
-    #     echo ${NAME}
-    #     Compress-Archive -Path d:\a\dxtoolkit\dxtoolkit\dxtoolkit2 -DestinationPath ${NAME}
-    #   shell: powershell
+    - name: compress toolkit
+      run: |
+        $NAME = "d:\a\dxtoolkit\dxtoolkit\${{ env.FILENAME }}"
+        echo ${NAME}
+        Compress-Archive -Path d:\a\dxtoolkit\dxtoolkit\dxtoolkit2 -DestinationPath ${NAME}
+      shell: powershell
 
-    # - name: Upload windows
-    #   uses: actions/upload-artifact@v1
-    #   with:
-    #     name: windowsbuild
-    #     path: ${{ env.FILENAME }}
+    - name: Upload windows
+      uses: actions/upload-artifact@v1
+      with:
+        name: windowsbuild
+        path: ${{ env.FILENAME }}
 
 
   # osx:
