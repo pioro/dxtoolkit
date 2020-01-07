@@ -19,9 +19,9 @@ RUN apt-get update \
     && apt-get install -y gcc \
     && apt-get install -y libssl-dev \
     && apt-get install -y libwww-perl \
-    && cpanm DateTime::Event::Cron::Quartz 
-    # && cpanm Log::Syslog::Fast \
-    # && cpanm Filter::Crypto::Decrypt 
+    && cpanm DateTime::Event::Cron::Quartz \
+    && cpanm Log::Syslog::Fast@0.65 \
+    && cpanm Filter::Crypto::Decrypt 
 
 RUN mkdir -p /github/workspace
 RUN mkdir -p /github/home
@@ -30,3 +30,6 @@ COPY entrypoint.sh /entrypoint.sh
 WORKDIR /github/workspace
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+
+
