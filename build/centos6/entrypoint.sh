@@ -11,7 +11,7 @@ cat dbutils.orig.pm | sed -e "s/put your encryption key here/${INPUT_ENCKEY}/" >
 ls -l dbutils*
 
 cd /github/workspace/bin
-pp -u -I /github/workspace/lib -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
+pp -u -I /github/workspace/lib -l /usr/lib64/libcrypto.so -l /usr/lib64/libssl.so -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
       -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o $DELPHIX_OUTPUT/runner `ls dx_*.pl | xargs`
 
 cd $DELPHIX_OUTPUT
