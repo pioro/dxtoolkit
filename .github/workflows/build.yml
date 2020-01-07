@@ -257,7 +257,7 @@ jobs:
           OPENLIB=`brew --prefix openssl`
           CDIR=`pwd`
           export PP=${CELL}/bin/pp
-          export LIBS='-l ${OPENLIB}/lib/libssl.dylib -l ${OPENLIB}/lib/libcrypto.dylib'
+          export LIBS="-l ${OPENLIB}/lib/libssl.dylib -l ${OPENLIB}/lib/libcrypto.dylib"
           echo $LIBS
           mkdir dxtoolkit2
           cd ./lib
