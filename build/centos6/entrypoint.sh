@@ -15,7 +15,24 @@ pp -u -I /github/workspace/lib -l /usr/lib64/libcrypto.so -l /usr/lib64/libssl.s
       -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o $DELPHIX_OUTPUT/runner `ls dx_*.pl | xargs`
 
 cd $DELPHIX_OUTPUT
-for i in /github/workspace/bin/dx_*.pl ; do name=`basename -s .pl $i`; ln -s runner $name; done
+#for i in /github/workspace/bin/dx_*.pl ; do name=`basename $i .pl`; ln -s runner $name; done
+
+echo #!/bin/bash > install.sh
+echo LIST_OF_SCRIPTS=\( >> install.sh
+
+for i in /github/workspace/bin/dx_*.pl ; do
+    name=`basename $i .pl`;
+    echo $name >> install.sh
+done
+
+echo \) >> install.sh
+echo >> install.sh
+echo >> install.sh
+echo for i in \"\$\{LIST_OF_SCRIPTS\[\@\]\}\" >> install.sh
+echo do >> install.sh
+echo   echo \$i >> install.sh
+echo   ln -sf runner \$i >> install.sh
+echo done >> install.sh
 
 cd /github/workspace
 tar czvf /github/workspace/dxtoolkit.tar.gz dxtoolkit2/

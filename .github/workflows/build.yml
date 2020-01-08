@@ -267,7 +267,26 @@ jobs:
           $PP -u -I ../lib ${LIBS} -M Text::CSV_PP -M List::MoreUtils::PP -M Crypt::Blowfish  \
           -F Crypto=dbutils\.pm$ -M Filter::Crypto::Decrypt -o ../dxtoolkit2/runner `ls dx_*.pl | xargs`
           cd ${CDIR}/dxtoolkit2
-          for i in ${CDIR}/bin/dx_*.pl ; do name=`basename -s .pl $i`; ln -s runner $name; done
+          #for i in ${CDIR}/bin/dx_*.pl ; do name=`basename -s .pl $i`; ln -s runner $name; done
+
+          echo #!/bin/bash > install.sh
+          echo LIST_OF_SCRIPTS=\( >> install.sh
+
+          for i in ${CDIR}/bin/dx_*.pl ; do
+              name=`basename -s .pl $i`;
+              echo $name >> install.sh
+          done
+
+          echo \) >> install.sh
+          echo >> install.sh
+          echo >> install.sh
+          echo for i in \"\$\{LIST_OF_SCRIPTS\[\@\]\}\" >> install.sh
+          echo do >> install.sh
+          echo   echo \$i >> install.sh
+          echo   ln -sf runner \$i >> install.sh
+          echo done >> install.sh
+
+
           cd ${CDIR}
           ls -l ./dxtoolkit2
           tar czvf ${{ env.FILENAME }} dxtoolkit2/
